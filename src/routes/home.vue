@@ -1,7 +1,10 @@
 <template>
       <div>
             home
-            <div>{{homeInfo}}</div>
+             <div v-for="item in homeInfo.list"  :key="item.title">
+                        <div><h3>{{item.title}}</h3> </div>
+                        <p>{{item.content}}</p>
+             </div>
       </div>
 </template>
 
@@ -12,7 +15,7 @@ export default {
       serverRequest(store) {
 
             return store.dispatch('getHomeInfo')
-            
+
         },
       mounted() {
 

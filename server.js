@@ -11,9 +11,26 @@ const createApp = require('./dist/bundle.server.js')['default'];
 
 server.use('/', exp.static(__dirname + '/dist'));
 
+
+//客户端打包地址
+
 const clientBundleFileUrl = '/bundle.client.js';
 
 
+
+//getHomeInfo请求
+
+server.get('/api/getHomeInfo', (req, res)=>{
+
+
+           res.send('SSR发送请求');
+           
+})
+
+
+
+
+//路由响应请求
 
 server.get('*', (req, res)=>{
      
@@ -25,7 +42,7 @@ server.get('*', (req, res)=>{
 
     createApp(context).then(app => {
          
-      
+       let state = JSON.stringify(context.state)
 
        renderer.renderToString(app, (err, html)=>{
               if(err){
@@ -37,6 +54,7 @@ server.get('*', (req, res)=>{
                   <head>
                       <meta charset="UTF-8">
                       <title>Vue2.0 SSR渲染页面</title>
+                     <script>window.__INITIAL_STATE__ = ${state} </script>
                      <script src="${clientBundleFileUrl}"></script>
                   </head>
                   <body>
